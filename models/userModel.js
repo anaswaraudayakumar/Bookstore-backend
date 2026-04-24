@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    userName : {
+    username : {
         type : String,
         required : true
     },
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     },
     role : {
         type : String,
-        default : ""
+        default : "user"
     }
 })
 
