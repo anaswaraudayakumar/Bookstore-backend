@@ -35,7 +35,7 @@ exports.loginController = async (req,res)=>{
          //if present, check password
          const isPasswordMatch = await bcrypt.compare(password,existingUser.password)
          if(isPasswordMatch){
-            const token = jwt.sign({useremail:email,role:existingUser.user},process.env.JWTSECRET)
+            const token = jwt.sign({useremail:email,role:existingUser.role},process.env.JWTSECRET)
             res.status(200).json({user:existingUser,token})
          }else{
             res.status(409).json("invalid Email or password!!!")
@@ -47,6 +47,34 @@ exports.loginController = async (req,res)=>{
      }
 
 }
+
+//google Login Controller 
+exports.googleloginController = async (req,res)=>{
+    console.log("Inside googleLoginController");
+    
+    const {email,password,username,picture} =req.body
+     //check email in db
+     const existingUser = await users.findOne({email})
+     if (existingUser){
+         //if present, check password
+        
+            const token = jwt.sign({useremail:existingUser.email,role:existingUser.role},process.env.JWTSECRET)
+            res.status(200).json({user:existingUser,token})
+        
+
+     }else{
+        //if not present ,
+        let encryptPassWord = await bcrypt.hash(password,10)
+        const newUser = await users.create({
+            username,email,password: encryptPassWord,picture
+        })
+        const token = jwt.sign({useremail:newUser.email,role:newUser.role},process.env.JWTSECRET)
+        res.status(200).json({user:newUser,token})
+
+     }
+
+}
+
 //user edit
 
 //admin edit
