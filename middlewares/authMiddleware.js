@@ -8,7 +8,7 @@ const authMiddleware = (req,res,next)=>{
         try{
             const jwtResponse = jwt.verify(token,process.env.JWTSECRET)
             console.log(jwtResponse);
-            req.payload = jwtResponse.userMail
+            req.payload = jwtResponse.useremail //we use this in sellermail
             next()
             
         }catch(err){
