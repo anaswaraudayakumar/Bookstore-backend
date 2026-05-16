@@ -36,11 +36,19 @@ router.get('/books/:id',authMiddleware,bookController.getSingleBookViewControlle
 // get single book to view
 router.put('/books/:id/buy',authMiddleware,bookController.bookPaymentController)
 
+//books details by ai
+router.post('/book-ai',authMiddleware,bookController.generateBookDetailsAIController)
+
+
 //------------------------------------Aythorised user Admin----------------------------------------------------
 
 //admin profile edit
 
 router.put('/profile/:id',adminMiddleware,multerMiddleware.single('picture'),userController.userEditController)
+//all user List
+router.get('/user-list',adminMiddleware,userController.userEditController)
+
+// router.put('/books/:id',adminMiddleware,userController.updateBookStatusController)
 
 
 module.exports = router
